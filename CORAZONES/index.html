@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi San Valentín</title>
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease;
+        }
+
+        /* --- PANTALLA 1: PROPUESTA --- */
+        #proposal-screen {
+            background-color: #ffd1dc; /* Rosa pastel */
+            z-index: 2;
+        }
+
+        .heart-bg {
+            position: absolute;
+            color: #ff0000;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            animation: floatUp 4s linear forwards;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.6); /* Blanco medio transparente */
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(8px);
+            max-width: 90%;
+            width: 380px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #d6336c;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            line-height: 1.3;
+        }
+
+        .image-container {
+            width: 160px;
+            height: 160px;
+            background-color: #fff;
+            border-radius: 15px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+        }
+
+        /* Estilo base igual para ambos botones */
+        .btn-base {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 220px; /* Tamaño fijo inicial igual para ambos */
+            max-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #btn-yes {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 77, 109, 0.3);
+            z-index: 11;
+        }
+
+        #btn-no {
+            background-color: #f0f0f0;
+            color: #666;
+            z-index: 10;
+        }
+
+        /* --- PANTALLA 2: CELEBRACIÓN --- */
+        #celebration-screen {
+            background-color: #000;
+            z-index: 1;
+            display: none;
+        }
+
+        #canvas-fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #floor-petals {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            font-size: 22px;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+        }
+
+        .success-card {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 10;
+            animation: heartBeat 2s infinite;
+            max-width: 85%;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        .success-card h2 {
+            color: #ff4d6d;
+            font-size: 1.8rem;
+            margin: 0 0 10px 0;
+        }
+        
+        .success-card p {
+            font-size: 1.1rem;
+            color: #444;
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA 1 -->
+    <div id="proposal-screen" class="screen">
+        <div class="card">
+            <h1>¿QUIERES SER MI SAN VALENTÍN MI AMORCILÍN?</h1>
+            
+            <div class="image-container">
+                <!-- REEMPLAZA EL SRC POR TU FOTO -->
+                <img src="data:image/png;base64,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" alt="Nuestra Foto">
+            </div>
+
+            <div class="buttons-container">
+                <button id="btn-yes" class="btn-base">CLARO QUE SI QUIERO MI VIDA 🥰❤️‍🩹</button>
+                <button id="btn-no" class="btn-base">NO QUIERO FUCHI🐶</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2 -->
+    <div id="celebration-screen" class="screen">
+        <canvas id="canvas-fireworks"></canvas>
+        <div id="floor-petals"></div>
+        
+        <div class="success-card">
+            <h2>¡WIIIII SIIII! ❤️</h2>
+            <p>¡WIWIWIWIWIWI Soy la persona más feliz del mundo mi vida! ¡Gracias por aceptar mi cielito! 🫂💗, <¡TE AMOOOOO DEMASIDO CARIÑITO!💖 MUUUUAK MI PRECIOSO 💋</p>
+        </div>
+    </div>
+
+    <script>
+        /* --- CORAZONES DE FONDO --- */
+        function createHeartBg() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+            
+            document.getElementById('proposal-screen').appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        let heartInterval = setInterval(createHeartBg, 450);
+
+        /* --- LÓGICA DE BOTONES --- */
+        const btnYes = document.getElementById('btn-yes');
+        const btnNo = document.getElementById('btn-no');
+        const proposalScreen = document.getElementById('proposal-screen');
+        const celebrationScreen = document.getElementById('celebration-screen');
+        let noClicks = 0;
+
+        btnNo.addEventListener('click', () => {
+            noClicks++;
+            
+            if (noClicks === 1) {
+                btnYes.innerText = "SI QUIERO MI BB HERMOSA 🥹";
+                btnYes.style.transform = "scale(1.15)";
+                btnYes.style.backgroundColor = "#ff3355";
+            } else if (noClicks >= 2) {
+                btnYes.innerText = "ESTA BIEN MI AMOR SI QUIERO 😭";
+                btnYes.style.transform = "scale(1.4)";
+                btnYes.style.backgroundColor = "#ff0040";
+                btnYes.style.boxShadow = "0 8px 20px rgba(255, 0, 64, 0.4)";
+                
+                btnNo.innerText = "NO, NO QUIERO... 🐶";
+                btnNo.style.opacity = "0.5";
+                btnNo.style.transform = "scale(0.85)";
+            }
+        });
+
+        btnYes.addEventListener('click', () => {
+            proposalScreen.style.opacity = '0';
+            setTimeout(() => {
+                proposalScreen.style.display = 'none';
+                clearInterval(heartInterval);
+                celebrationScreen.style.display = 'flex';
+                startFireworks(); 
+                scatterPetals();
+            }, 800);
+        });
+
+        /* --- PÉTALOS --- */
+        function scatterPetals() {
+            const floor = document.getElementById('floor-petals');
+            for (let i = 0; i < 50; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.innerHTML = '💌'; 
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.bottom = Math.random() * 40 + 'px';
+                petal.style.transform = `rotate(${Math.random() * 360}deg) scale(${Math.random() * 0.4 + 0.6})`;
+                floor.appendChild(petal);
+            }
+        }
+
+        /* --- FUEGOS ARTIFICIALES --- */
+        function startFireworks() {
+            const canvas = document.getElementById('canvas-fireworks');
+            const ctx = canvas.getContext('2d');
+            let cw = window.innerWidth;
+            let ch = window.innerHeight;
+            canvas.width = cw;
+            canvas.height = ch;
+
+            let fireworks = [], particles = [], hue = 340; // Empezar en tonos rojizos/rosas
+            let timerTotal = 25, timerTick = 0;
+
+            function random(min, max) { return Math.random() * (max - min) + min; }
+            function calculateDistance(p1x, p1y, p2x, p2y) {
+                return Math.sqrt(Math.pow(p1x - p2x, 2) + Math.pow(p1y - p2y, 2));
+            }
+
+            function Firework(sx, sy, tx, ty) {
+                this.x = sx; this.y = sy; this.sx = sx; this.sy = sy;
+                this.tx = tx; this.ty = ty;
+                this.distanceToTarget = calculateDistance(sx, sy, tx, ty);
+                this.distanceTraveled = 0;
+                this.coordinates = [];
+                this.coordinateCount = 3;
+                while(this.coordinateCount--) { this.coordinates.push([this.x, this.y]); }
+                this.angle = Math.atan2(ty - sy, tx - sx);
+                this.speed = 2;
+                this.acceleration = 1.05;
+                this.brightness = random(50, 70);
+            }
+
+            Firework.prototype.update = function(index) {
+                this.coordinates.pop();
+                this.coordinates.unshift([this.x, this.y]);
+                this.speed *= this.acceleration;
+                let vx = Math.cos(this.angle) * this.speed;
+                let vy = Math.sin(this.angle) * this.speed;
+                this.distanceTraveled = calculateDistance(this.sx, this.sy, this.x + vx, this.y + vy);
+                if(this.distanceTraveled >= this.distanceToTarget) {
+                    createParticles(this.tx, this.ty);
+                    fireworks.splice(index, 1);
+                } else {
+                    this.x += vx; this.y += vy;
+                }
+            }
+
+            Firework.prototype.draw = function() {
+                ctx.beginPath();
+                ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+                ctx.lineTo(this.x, this.y);
+                ctx.strokeStyle = 'hsl(' + hue + ', 100%, ' + this.brightness + '%)';
+                ctx.stroke();
+            }
+
+            function Particle(x, y) {
+                this.x = x; this.y = y;
+                this.coordinates = [];
+                this.coordinateCount = 5;
+                while(this.coordinateCount--) { this.coordinates.push([this.x, this.y]); }
+                this.angle = random(0, Math.PI * 2);
+                this.speed = random(1, 10);
+                this.friction = 0.95;
+                this.gravity = 1;
+                this.hue = random(hue - 20, hue + 20);
+                this.brightness = random(50, 80);
+                this.alpha = 1;
+                this.decay = random(0.015, 0.03);
+            }
+
+            Particle.prototype.update = function(index) {
+                this.coordinates.pop();
+                this.coordinates.unshift([this.x, this.y]);
+                this.speed *= this.friction;
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed + this.gravity;
+                this.alpha -= this.decay;
+                if(this.alpha <= this.decay) { particles.splice(index, 1); }
+            }
+
+            Particle.prototype.draw = function() {
+                ctx.beginPath();
+                ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+                ctx.lineTo(this.x, this.y);
+                ctx.strokeStyle = 'hsla(' + this.hue + ', 100%, ' + this.brightness + '%, ' + this.alpha + ')';
+                ctx.stroke();
+            }
+
+            function createParticles(x, y) {
+                let particleCount = 25;
+                while(particleCount--) { particles.push(new Particle(x, y)); }
+            }
+
+            function loop() {
+                requestAnimationFrame(loop);
+                hue += 0.5;
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                ctx.fillRect(0, 0, cw, ch);
+                ctx.globalCompositeOperation = 'lighter';
+                let i = fireworks.length;
+                while(i--) { fireworks[i].draw(); fireworks[i].update(i); }
+                let k = particles.length;
+                while(k--) { particles[k].draw(); particles[k].update(k); }
+                if(timerTick >= timerTotal) {
+                    fireworks.push(new Firework(cw / 2, ch, random(0, cw), random(0, ch / 2)));
+                    timerTick = 0;
+                } else { timerTick++; }
+            }
+
+            window.addEventListener('resize', () => {
+                cw = window.innerWidth; ch = window.innerHeight;
+                canvas.width = cw; canvas.height = ch;
+            });
+            loop();
+        }
+    </script>
+</body>
+</html>
